@@ -3,7 +3,7 @@ from itertools import product
 import json
 from tkinter import filedialog
 
-# ===================== CONFIG =====================
+
 BG = "#1a1a1a"
 LEFT_BG = "#111111"
 RIGHT_BG = "#111111"
@@ -14,7 +14,7 @@ NODE_W = 120
 NODE_H = 60
 PORT_R = 8
 
-# ===================== LOGIC =====================
+
 def AND(a, b): return a & b
 def OR(a, b): return a | b
 def XOR(a, b): return a ^ b
@@ -35,7 +35,7 @@ GATE_LABELS = {
     "XNOR": "XNOR", "IN": "INPUT", "OUT": "OUTPUT"
 }
 
-# ===================== GATE =====================
+
 class Gate:
     id_counter = {"IN": 0, "OUT": 0}
 
@@ -162,7 +162,7 @@ class Gate:
         self.draw()
         self.sim.update_wires()
 
-# ===================== WIRE =====================
+
 class Wire:
     def __init__(self, sim, src, dst, in_idx):
         self.sim = sim
@@ -192,7 +192,7 @@ class Wire:
         c.coords(self.label, (x1 + x2)//2, (y1 + y2)//2 - 10)
         c.itemconfig(self.label, text=str(self.src.output_value))
 
-# ===================== SIMULATOR =====================
+
 class Simulator:
     def __init__(self, root):
         self.root = root
@@ -206,7 +206,6 @@ class Simulator:
         self.right = tk.Frame(root, width=300, bg=RIGHT_BG)
         self.right.pack(side="right", fill="y")
 
-        # ===================== Заголовки =====================
         self.header_label = tk.Label(root, text="Logic Gate Simulator", bg=BG, fg=ACCENT, font=("Arial",18,"bold"))
         self.header_label.pack(side="top", pady=(10,2))
         self.top_label = tk.Label(root, text="Workspace", bg=BG, fg=ACCENT, font=("Arial",14,"bold"))
@@ -264,7 +263,7 @@ class Simulator:
         self.rounded_button(self.left, "Save Circuit", self.save_circuit)
         self.rounded_button(self.left, "Load Circuit", self.load_circuit)
 
-    # -------------------- Логика добавления и удаления --------------------
+    
     def add_gate(self, kind, x=400, y=300):
         g = Gate(self, kind, x, y)
         self.gates.append(g)
@@ -294,7 +293,7 @@ class Simulator:
         for g in self.gates:
             g.evaluate_recursive(visited)
 
-    # -------------------- Исправленная таблица истинности --------------------
+   
     def truth_table(self):
         for w in self.right.winfo_children():
             w.destroy()
@@ -308,7 +307,7 @@ class Simulator:
             tk.Label(self.right, text="Add at least 1 INPUT and 1 OUTPUT", bg=RIGHT_BG, fg="white").pack()
             return
 
-        # Создаем временные копии гейтов
+       
         class TempGate:
             def __init__(self, gate):
                 self.kind = gate.kind
@@ -371,7 +370,7 @@ class Simulator:
                 col += 1
             row += 1
 
-    # -------------------- Остальное --------------------
+  
     def clear_workspace(self):
         for g in self.gates:
             self.sim_delete_gate_canvas(g)
@@ -470,7 +469,7 @@ class Simulator:
         self.evaluate_all()
 
 
-# ===================== RUN =====================
+
 root = tk.Tk()
 Simulator(root)
 root.mainloop()
